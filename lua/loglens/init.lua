@@ -173,18 +173,20 @@ function M.configure_open()
 	})
 end
 
+function M.save(file)
+	file = vim.fn.expand(file)
+	vim.fn.writefile(patterns_to_json(), file)
+	print("Patterns saved to " .. file)
+end
+
 function M.load(file)
+	file = vim.fn.expand(file)
 	local lines = vim.fn.readfile(file)
 	if json_to_patterns(lines) then
 		print("Patterns loaded from " .. file)
 	else
 		print("Failed to load patterns from " .. file)
 	end
-end
-
-function M.save(file)
-	vim.fn.writefile(patterns_to_json(), file)
-	print("Patterns saved to " .. file)
 end
 
 vim.api.nvim_create_user_command("LogLensOpen", function()
