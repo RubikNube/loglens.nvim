@@ -99,7 +99,7 @@ Use `:LogLensConfigureOpen` to open and edit your patterns in JSON format, for e
 
 ## Example
 
-![LogLens Demo](./media/loglens-demo.gif)
+![LogLens Demo](./media/loglens_example.gif)
 
 ---
 
