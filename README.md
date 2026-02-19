@@ -44,16 +44,6 @@ A Neovim plugin for interactive log file analysis. Highlight, filter, and jump b
 }
 ```
 
-**With [packer.nvim](https://github.com/wbthomason/packer.nvim):**
-```lua
-use {
-  "yourusername/loglens.nvim",
-  config = function()
-    require("loglens").setup()
-  end
-}
-```
-
 ---
 
 ## Usage
