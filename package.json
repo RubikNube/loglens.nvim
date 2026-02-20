@@ -1,6 +1,6 @@
 {
     "name": "loglens.nvim",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "description": "A Neovim plugin for interactive log file analysis. Highlight, filter, and jump between log entries using customizable patterns.",
     "author": "RubikNube",
     "license": "MIT",
