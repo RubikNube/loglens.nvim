@@ -65,7 +65,7 @@ describe("loglens.nvim", function()
 
     it("opens and closes the log window", function()
         loglens.open()
-        -- Should create a floating window
+        -- Should create a vertical split window
         local wins = vim.api.nvim_list_wins()
         local found = false
         for _, win in ipairs(wins) do
@@ -79,7 +79,16 @@ describe("loglens.nvim", function()
     end)
 
     it("adds patterns on the fly with :LogLensConfigure", function()
+        loglens.setup({
+            patterns = {
+                { regex = "ERROR", fg = "#ffffff", bg = "#ff0000" },
+                { regex = "WARN", fg = "#000000", bg = "#ffff00" },
+                { regex = "timeout", fg = "#ffffff", bg = "#ff8800" },
+            },
+        })
         vim.cmd("LogLensConfigure /INFO/ fg=#00ff00 bg=#000000")
+        loglens.state = loglens.state or {}
+        loglens.state.src_buf = test_buf
         loglens.open()
         local lines = vim.api.nvim_buf_get_lines(test_buf, 0, -1, false)
         local found = false
@@ -102,5 +111,20 @@ describe("loglens.nvim", function()
         loglens.open()
         local wins = vim.api.nvim_list_wins()
         assert.is_true(#wins > 0)
+    end)
+
+    it("opens and closes the pattern configuration window", function()
+        loglens.configure_open()
+        -- Should create a floating window for config
+        local found = false
+        for _, win in ipairs(vim.api.nvim_list_wins()) do
+            local buf = vim.api.nvim_win_get_buf(win)
+            if vim.api.nvim_buf_get_option(buf, "filetype") == "json" then
+                found = true
+                break
+            end
+        end
+        assert.is_true(found)
+        loglens.configure_close()
     end)
 end)
