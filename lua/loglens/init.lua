@@ -131,7 +131,10 @@ function M.configure(args)
 end
 
 local function patterns_to_json()
+	-- Pretty-print JSON: 2-space indent, each pattern on its own line
 	local json = vim.fn.json_encode(patterns)
+	-- Insert newlines and indentation for readability
+	json = json:gsub("%[%s*{", "[\n  {"):gsub("},%s*{", "},\n  {"):gsub("}%s*%]", "}\n]")
 	return vim.split(json, "\n")
 end
 
