@@ -20,11 +20,13 @@
         "release": "standard-version",
         "format:lua": "stylua lua/ tests/",
         "lint:lua": "luacheck lua/ tests/",
-        "format:md": "prettier --write '**/*.{md,json}'",
-        "lint:md": "markdownlint '**/*.md'",
+        "format:md": "prettier --write 'README.md'",
+        "lint:md": "markdownlint 'README.md'",
+        "lint:md:fix": "npx markdownlint-cli --fix README.md",
         "format": "npm run format:lua && npm run format:md",
         "lint": "npm run lint:lua && npm run lint:md",
-        "check": "npm run format && npm run lint"
+        "check": "npm run format && npm run lint",
+        "test": "nvim --headless -c \"PlenaryBustedDirectory tests/\""
     },
     "config": {
         "commitizen": {

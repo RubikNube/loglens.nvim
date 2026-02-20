@@ -4,7 +4,6 @@ local patterns = {}
 local line_map = {}
 local config_win = nil
 local config_buf = nil
-local log_win = nil
 
 local function make_hl_group(fg, bg)
     local group = "LogLensHL_" .. fg:gsub("#", "") .. "_" .. bg:gsub("#", "")
@@ -25,8 +24,8 @@ function M.open()
     end
 
     local buf = vim.api.nvim_create_buf(false, true)
-    vim.api.nvim_buf_set_option(buf, "bufhidden", "wipe")
-    vim.api.nvim_buf_set_option(buf, "filetype", "loglens")
+    vim.api.nvim_set_option_value("bufhidden", "wipe", { buf = buf })
+    vim.api.nvim_set_option_value("filetype", "loglens", { buf = buf })
 
     local cur_win = vim.api.nvim_get_current_win()
     vim.cmd("vsplit")
@@ -41,11 +40,6 @@ function M.open()
 end
 
 function M.close()
-    if log_win and vim.api.nvim_win_is_valid(log_win) then
-        vim.api.nvim_win_close(log_win, true)
-        log_win = nil
-        log_buf = nil
-    end
     if state.win and vim.api.nvim_win_is_valid(state.win) then
         vim.api.nvim_win_close(state.win, true)
         state.win = nil
@@ -100,7 +94,7 @@ function M.configure_open()
         style = "minimal",
         border = "rounded",
     })
-    vim.api.nvim_buf_set_option(config_buf, "filetype", "json")
+    vim.api.nvim_set_option_value("filetype", "json", { buf = config_buf })
     vim.api.nvim_create_autocmd({ "BufWritePost", "BufWinLeave" }, {
         buffer = config_buf,
         callback = function()
@@ -167,7 +161,7 @@ end, { nargs = 1 })
 
 function M._render(buf)
     -- Get lines from the original buffer (the one to analyze)
-    local src_buf = nil
+    local src_buf
     if state and state.buf == buf and state.src_buf then
         src_buf = state.src_buf
     else
@@ -188,6 +182,9 @@ function M._render(buf)
         state.src_buf = src_buf
     end
 
+    if not src_buf or not vim.api.nvim_buf_is_valid(src_buf) then
+        return
+    end
     local lines = vim.api.nvim_buf_get_lines(src_buf, 0, -1, false)
     local matches = {}
 
@@ -220,7 +217,10 @@ function M._render(buf)
     -- Highlight matches
     for i, match in ipairs(matches) do
         local ns = vim.api.nvim_create_namespace("loglens_" .. match.regex)
-        vim.api.nvim_buf_add_highlight(buf, ns, match.hl_group, i - 1, 0, -1)
+        vim.api.nvim_buf_set_extmark(buf, ns, i - 1, 0, {
+            end_col = #match.line,
+            hl_group = match.hl_group,
+        })
     end
 
     -- Map <CR> to jump to the original buffer and line using a global function
