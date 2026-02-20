@@ -5,5 +5,5 @@ print("package.path: " .. package.path)
 local ok, mod = pcall(require, "loglens")
 print("require('loglens') ok:", ok)
 if not ok then
-	print(mod)
+    print(mod)
 end

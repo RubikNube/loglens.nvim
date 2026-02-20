@@ -1,0 +1,41 @@
+{
+    "name": "loglens.nvim",
+    "version": "1.0.0",
+    "description": "A Neovim plugin for interactive log file analysis. Highlight, filter, and jump between log entries using customizable patterns.",
+    "author": "RubikNube",
+    "license": "MIT",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/RubikNube/loglens.nvim"
+    },
+    "keywords": [
+        "neovim",
+        "plugin",
+        "lua",
+        "log",
+        "analysis"
+    ],
+    "scripts": {
+        "commit": "cz",
+        "release": "standard-version",
+        "format:lua": "stylua lua/ tests/",
+        "lint:lua": "luacheck lua/ tests/",
+        "format:md": "prettier --write '**/*.{md,json}'",
+        "lint:md": "markdownlint '**/*.md'",
+        "format": "npm run format:lua && npm run format:md",
+        "lint": "npm run lint:lua && npm run lint:md",
+        "check": "npm run format && npm run lint"
+    },
+    "config": {
+        "commitizen": {
+            "path": "./node_modules/cz-conventional-changelog"
+        }
+    },
+    "devDependencies": {
+        "commitizen": "^4.2.4",
+        "cz-conventional-changelog": "^3.3.0",
+        "markdownlint-cli": "^0.12.0",
+        "prettier": "^3.2.5",
+        "standard-version": "^9.5.0"
+    }
+}

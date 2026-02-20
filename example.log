@@ -1,0 +1,44 @@
+2024-06-01 10:00:00 INFO Starting up service
+2024-06-01 10:00:01 WARN Disk space is low
+2024-06-01 10:00:02 INFO Checking configuration
+2024-06-01 10:00:03 ERROR Failed to connect to database
+2024-06-01 10:00:04 INFO Retrying connection
+2024-06-01 10:00:05 WARN Connection is slow
+2024-06-01 10:00:06 INFO Connection established
+2024-06-01 10:00:07 INFO Processing request
+2024-06-01 10:00:08 ERROR Timeout while processing request
+2024-06-01 10:00:09 INFO Request completed
+2024-06-01 10:00:10 INFO Shutting down service
+2024-06-01 10:00:11 WARN Service did not shut down cleanly
+2024-06-01 10:00:12 ERROR Service crashed unexpectedly
+2024-06-01 10:00:13 INFO Restarting service
+2024-06-01 10:00:14 INFO Service started successfully
+2024-06-01 10:00:00 INFO Starting up service
+2024-06-01 10:00:01 WARN Disk space is low
+2024-06-01 10:00:02 INFO Checking configuration
+2024-06-01 10:00:03 ERROR Failed to connect to database
+2024-06-01 10:00:04 INFO Retrying connection
+2024-06-01 10:00:05 WARN Connection is slow
+2024-06-01 10:00:06 INFO Connection established
+2024-06-01 10:00:07 INFO Processing request
+2024-06-01 10:00:08 ERROR Timeout while processing request 2024-06-01 10:00:09 INFO Request completed
+2024-06-01 10:00:10 INFO Shutting down service
+2024-06-01 10:00:11 WARN Service did not shut down cleanly
+2024-06-01 10:00:12 ERROR Service crashed unexpectedly
+2024-06-01 10:00:13 INFO Restarting service
+2024-06-01 10:00:14 INFO Service started successfully
+2024-06-01 10:00:14 INFO Service started successfully
+2024-06-01 10:00:00 INFO Starting up service
+2024-06-01 10:00:01 WARN Disk space is low
+2024-06-01 10:00:02 INFO Checking configuration
+2024-06-01 10:00:03 ERROR Failed to connect to database
+2024-06-01 10:00:04 INFO Retrying connection
+2024-06-01 10:00:05 WARN Connection is slow
+2024-06-01 10:00:06 INFO Connection established
+2024-06-01 10:00:07 INFO Processing request
+2024-06-01 10:00:08 ERROR Timeout while processing request 2024-06-01 10:00:09 INFO Request completed
+2024-06-01 10:00:10 INFO Shutting down service
+2024-06-01 10:00:11 WARN Service did not shut down cleanly
+2024-06-01 10:00:12 ERROR Service crashed unexpectedly
+2024-06-01 10:00:13 INFO Restarting service
+2024-06-01 10:00:14 INFO Service started successfully
