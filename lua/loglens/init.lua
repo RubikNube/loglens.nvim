@@ -1,21 +1,10 @@
 local M = {}
-
 local state = {}
 local patterns = {}
 local line_map = {}
 local config_win = nil
 local config_buf = nil
 local log_win = nil
-local log_buf = nil
-
-local function apply_highlights(buf, matches)
-	vim.api.nvim_buf_clear_namespace(buf, -1, 0, -1)
-	for _, match in ipairs(matches) do
-		local ns = vim.api.nvim_create_namespace("loglens_" .. match.regex)
-		-- Highlight the entire line
-		vim.api.nvim_buf_add_highlight(buf, ns, match.hl_group, match.lnum - 1, 0, -1)
-	end
-end
 
 local function make_hl_group(fg, bg)
 	local group = "LogLensHL_" .. fg:gsub("#", "") .. "_" .. bg:gsub("#", "")
@@ -23,57 +12,6 @@ local function make_hl_group(fg, bg)
 		vim.api.nvim_set_hl(0, group, { fg = fg, bg = bg })
 	end
 	return group
-end
-
-local function match_lines(lines)
-	local matches = {}
-	for lnum, line in ipairs(lines) do
-		for _, pat in ipairs(patterns) do
-			local s, e = line:find(pat.regex)
-			if s and e then
-				local hl_group = make_hl_group(pat.fg, pat.bg)
-				table.insert(matches, {
-					lnum = lnum,
-					regex = pat.regex,
-					hl_group = hl_group,
-					line = line,
-					start_col = 0,
-					end_col = -1,
-				})
-				-- No break: allow multiple highlights per line
-			end
-		end
-	end
-	return matches
-end
-
-local function open_log_window(matches)
-	if log_win and vim.api.nvim_win_is_valid(log_win) then
-		vim.api.nvim_win_close(log_win, true)
-	end
-	log_buf = vim.api.nvim_create_buf(false, true)
-	local lines = {}
-	for _, m in ipairs(matches) do
-		table.insert(lines, m.line)
-	end
-	-- Show every match as a separate line, even if content is identical
-	vim.api.nvim_buf_set_lines(log_buf, 0, -1, false, lines)
-	log_win = vim.api.nvim_open_win(log_buf, true, {
-		relative = "editor",
-		width = math.floor(vim.o.columns * 0.8),
-		height = math.floor(vim.o.lines * 0.4),
-		row = math.floor(vim.o.lines * 0.3),
-		col = math.floor(vim.o.columns * 0.1),
-		style = "minimal",
-		border = "rounded",
-	})
-	-- Set focus to the filtered window
-	vim.api.nvim_set_current_win(log_win)
-	-- Apply highlights: each line is a match, so lnum = index in lines
-	for i, match in ipairs(matches) do
-		local ns = vim.api.nvim_create_namespace("loglens_" .. match.regex)
-		vim.api.nvim_buf_add_highlight(log_buf, ns, match.hl_group, i - 1, 0, -1)
-	end
 end
 
 function M.setup(opts)
