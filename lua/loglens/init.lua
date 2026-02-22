@@ -211,6 +211,14 @@ end, { nargs = 1 })
 vim.api.nvim_create_user_command("LogLensSave", function(opts)
     M.save(opts.args)
 end, { nargs = 1 })
+vim.api.nvim_create_user_command("LogLensClear", function()
+    patterns = {}
+    -- Clear loglens view if open
+    if state.buf and vim.api.nvim_buf_is_valid(state.buf) then
+        M._render(state.buf)
+    end
+    print("LogLens patterns cleared.")
+end, {})
 
 function M._render(buf)
     -- Get lines from the original buffer (the one to analyze)
