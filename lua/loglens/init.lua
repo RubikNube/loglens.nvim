@@ -4,6 +4,59 @@ local patterns = {}
 local line_map = {}
 local config_win = nil
 local config_buf = nil
+local loglens_colors = {
+    { fg = "#ffffff", bg = "#ff0000" },
+    { fg = "#000000", bg = "#ffff00" },
+    { fg = "#ffffff", bg = "#005f87" },
+    { fg = "#ffffff", bg = "#444444" },
+    { fg = "#ffffff", bg = "#00af00" },
+    { fg = "#ffffff", bg = "#af00ff" },
+    { fg = "#ffffff", bg = "#ff005f" },
+    { fg = "#000000", bg = "#87ff00" },
+    { fg = "#ffffff", bg = "#ff8700" },
+    { fg = "#ffffff", bg = "#ff0087" },
+    { fg = "#000000", bg = "#d7d7d7" },
+    { fg = "#ffffff", bg = "#005fff" },
+    { fg = "#000000", bg = "#ffd700" },
+    { fg = "#000000", bg = "#d7d7d7" },
+    { fg = "#ffffff", bg = "#00ff87" },
+    { fg = "#ffffff", bg = "#ff0000" },
+    { fg = "#000000", bg = "#87afff" },
+    { fg = "#ffffff", bg = "#005fd7" },
+    { fg = "#ffffff", bg = "#00afaf" },
+    { fg = "#000000", bg = "#afd700" },
+    { fg = "#ffffff", bg = "#af0000" },
+    { fg = "#ffffff", bg = "#ffaf00" },
+    { fg = "#000000", bg = "#ffff5f" },
+    { fg = "#ffffff", bg = "#0087ff" },
+    { fg = "#ffffff", bg = "#878787" },
+    { fg = "#ffffff", bg = "#00ff00" },
+    { fg = "#ffffff", bg = "#ff5f5f" },
+    { fg = "#000000", bg = "#afff00" },
+    { fg = "#ffffff", bg = "#ffaf5f" },
+    { fg = "#ffffff", bg = "#ff5faf" },
+    { fg = "#000000", bg = "#e4e4e4" },
+    { fg = "#ffffff", bg = "#0087ff" },
+    { fg = "#000000", bg = "#ffd75f" },
+    { fg = "#000000", bg = "#e4e4e4" },
+    { fg = "#ffffff", bg = "#00ffd7" },
+    { fg = "#ffffff", bg = "#ff005f" },
+    { fg = "#000000", bg = "#afd7ff" },
+    { fg = "#ffffff", bg = "#0087d7" },
+    { fg = "#ffffff", bg = "#00d7af" },
+    { fg = "#000000", bg = "#afff5f" },
+    { fg = "#ffffff", bg = "#d70000" },
+    { fg = "#ffffff", bg = "#ffd787" },
+    { fg = "#000000", bg = "#ffff87" },
+    { fg = "#ffffff", bg = "#00afff" },
+    { fg = "#ffffff", bg = "#bcbcbc" },
+    { fg = "#ffffff", bg = "#00ff5f" },
+    { fg = "#ffffff", bg = "#ff8787" },
+    { fg = "#000000", bg = "#ffafd7" },
+    { fg = "#ffffff", bg = "#afafff" },
+    { fg = "#000000", bg = "#d7ffaf" },
+    { fg = "#ffffff", bg = "#ffafaf" },
+}
 
 local function make_hl_group(fg, bg)
     local group = "LogLensHL_" .. fg:gsub("#", "") .. "_" .. bg:gsub("#", "")
@@ -264,5 +317,49 @@ _G.loglens_goto_line = function(src_buf)
         end
     end
 end
+
+-- Add visual selection as a pattern with cycling colors
+local loglens_color_index = 1
+
+function M.add_pattern_from_selection(opts)
+    local start_pos = vim.fn.getpos("'<")
+    local end_pos = vim.fn.getpos("'>")
+    local start_line = start_pos[2]
+    local start_col = start_pos[3]
+    local end_line = end_pos[2]
+    local end_col = end_pos[3]
+
+    local lines = vim.api.nvim_buf_get_lines(0, start_line - 1, end_line, false)
+    local text
+
+    if #lines == 1 then
+        text = lines[1]:sub(start_col, end_col)
+    else
+        local selected = {}
+        selected[1] = lines[1]:sub(start_col)
+        for i = 2, #lines - 1 do
+            table.insert(selected, lines[i])
+        end
+        selected[#selected + 1] = lines[#lines]:sub(1, end_col)
+        text = table.concat(selected, "\n")
+    end
+
+    local color = loglens_colors[loglens_color_index] or loglens_colors[1]
+    loglens_color_index = loglens_color_index + 1
+    if loglens_color_index > #loglens_colors then
+        loglens_color_index = 1
+    end
+    table.insert(patterns, { regex = text, fg = color.fg, bg = color.bg })
+    print("Pattern added with color #" .. loglens_color_index .. ": " .. text)
+
+    -- Refresh loglens view if open
+    if state.buf and vim.api.nvim_buf_is_valid(state.buf) then
+        M._render(state.buf)
+    end
+end
+
+vim.api.nvim_create_user_command("LogLensAddPatternFromSelection", function(opts)
+    M.add_pattern_from_selection(opts)
+end, { range = true })
 
 return M
