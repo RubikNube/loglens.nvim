@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.1.0](https://github.com/RubikNube/loglens.nvim/compare/v1.0.1...v1.1.0) (2026-02-22)
+
+
+### Features
+
+* add visual selection pattern command ([303c5d7](https://github.com/RubikNube/loglens.nvim/commit/303c5d7e5e79c737d0f910aa6016d44c5d1eacbc))
+* **core:** add :LogLensClear command and keybinding ([ca323b8](https://github.com/RubikNube/loglens.nvim/commit/ca323b843b93b77dc97a68d26d434fed3e4790ba))
+
 ### [1.0.1](https://github.com/RubikNube/loglens.nvim/compare/v1.0.0...v1.0.1) (2026-02-20)
 
 ## 1.0.0 (2026-02-20)
