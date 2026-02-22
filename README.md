@@ -92,6 +92,7 @@ This is useful for interactively highlighting log entries or phrases directly fr
 | `:LogLensConfigureClose`          | Close the pattern configuration window if open.                                                               |
 | `:LogLensLoad {file}`             | Load a pattern configuration from a JSON file.                                                                |
 | `:LogLensSave {file}`             | Save the current pattern configuration to a JSON file.                                                        |
+| `:LogLensClear`                   | Clear all patterns and results from the loglens view.                                                          |
 | `:LogLensAddPatternFromSelection` | Add a new pattern using visually selected text. Automatically updates the loglens view.                       |
 
 ---
