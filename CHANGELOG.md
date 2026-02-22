@@ -8,9 +8,7 @@ All notable changes to this project will be documented in this file. See [standa
 ### Features
 
 * add visual selection pattern command ([303c5d7](https://github.com/RubikNube/loglens.nvim/commit/303c5d7e5e79c737d0f910aa6016d44c5d1eacbc))
-* add visual selection pattern command ([#3](https://github.com/RubikNube/loglens.nvim/issues/3)) ([65aa05b](https://github.com/RubikNube/loglens.nvim/commit/65aa05b3dc9db0c271899d8fef308c103eca5d42))
 * **core:** add :LogLensClear command and keybinding ([ca323b8](https://github.com/RubikNube/loglens.nvim/commit/ca323b843b93b77dc97a68d26d434fed3e4790ba))
-* **core:** add :LogLensClear command and keybinding ([#4](https://github.com/RubikNube/loglens.nvim/issues/4)) ([d2a3c19](https://github.com/RubikNube/loglens.nvim/commit/d2a3c19ee30b62edbc7d7c66ba2d81f3388905d8))
 
 ### [1.0.1](https://github.com/RubikNube/loglens.nvim/compare/v1.0.0...v1.0.1) (2026-02-20)
 
